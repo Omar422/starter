@@ -13,7 +13,12 @@ return [
     |
     */
 
-    'greeting'  => 'welcome',
-    'laravel'   => 'Laravel'
+    'greeting'      => 'welcome',
+    'laravel'       => 'Laravel',
+
+//    Offer
+    'offer name unique'    => 'Already Exists',
+    'offer price numeric'  => 'Price Must Be A Number'
+
 
 ];

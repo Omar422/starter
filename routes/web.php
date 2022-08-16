@@ -11,6 +11,8 @@
 |
 */
 
+use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
+
 Route::get('/', function () {
     return view('welcome');
 });
@@ -104,3 +106,20 @@ Route::group(['namespace'=>'Front'],function(){
 Auth::routes(['verify'=>true]);
 
 Route::get('/home', 'HomeController@index')->name('home')->middleware('verified');
+
+Route::get('/redirect/{service}', 'SocialController@redirect');
+Route::get('/callback/{service}', 'SocialController@callback');
+
+Route::group([
+        'prefix'=>LaravelLocalization::setLocale(),
+        'middleware' => [ 'localeSessionRedirect', 'localizationRedirect', 'localeViewPath' ]
+    ],
+    function(){
+        Route::group(['prefix'=>'offers'], function(){
+            Route::get('/', 'CrudController@index');
+//    Route::get('store', 'CrudController@store');
+            Route::get('create', 'CrudController@create');
+            Route::post('store', 'CrudController@store')->name('offer_store');
+        });
+
+    });

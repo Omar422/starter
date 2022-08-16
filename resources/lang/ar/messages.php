@@ -14,6 +14,10 @@ return [
     */
 
     'greeting'  => 'أهلا بكم',
-    'laravel'   => 'لارافيل'
+    'laravel'   => 'لارافيل',
+
+//    Offer
+    'offer name unique'     => 'اسم العرض موجود مسبقا',
+    'offer price numeric'   => 'السعر يجب أن يكون رقما'
 
 ];
