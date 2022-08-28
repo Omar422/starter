@@ -120,6 +120,8 @@ Route::group([
 //    Route::get('store', 'CrudController@store');
             Route::get('create', 'CrudController@create');
             Route::post('store', 'CrudController@store')->name('offer_store');
+            Route::get('edit/{id}', 'CrudController@edit');
+            Route::post('update/{id}', 'CrudController@update')->name('offer_update');
         });
 
     });

@@ -17,7 +17,21 @@ return [
     'laravel'   => 'لارافيل',
 
 //    Offer
-    'offer name unique'     => 'اسم العرض موجود مسبقا',
-    'offer price numeric'   => 'السعر يجب أن يكون رقما'
+    'offer name_ar unique'      => 'اسم العرض بالعربي موجود مسبقا',
+    'offer name_en unique'      => 'اسم العرض بالإنجليزي موجود مسبقا',
+    'offer price numeric'       => 'السعر يجب أن يكون رقما',
+    'offer name'                => 'اسم العرض',
+    'offer name ar'             => 'اسم العرض بالعربي',
+    'offer name en'             => 'اسم العرض بالإنجليزي',
+    'offer price'               => 'السعر',
+    'offer details'             => 'الوصف',
+    'offer details ar'          => 'الوصف بالعربي',
+    'offer details en'          => 'الوصف بالإنجليزي',
+    'offer create'              => 'إضافة عرض جديد',
+    'save'                      => 'حفظ',
+    'Operation'                 => 'العمليات',
+    'edit'                      => 'تعديل',
+    'update'                    => 'تحديث'
+
 
 ];

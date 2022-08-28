@@ -16,25 +16,33 @@
             <table>
                 <thead>
                 <tr>
-                    <th>Name</th>
-                    <th>Price</th>
-                    <th>Details</th>
+                    <th>#</th>
+                    <th>{{trans('messages.offer name')}}</th>
+                    <th>{{__('messages.offer price')}}</th>
+                    <th>@lang('messages.offer details')</th>
+                    <th>{{__('messages.Operation')}}</th>
                 </tr>
                 </thead>
                 <tbody>
                 @foreach($offers as $offer)
                 <tr>
+                    <td>{{$offer->id}}</td>
                     <td>{{$offer->name}}</td>
                     <td>{{$offer->price}}</td>
                     <td>{{$offer->details}}</td>
+                    <td>
+                        <a href="{{url('offers/edit/'.$offer->id)}}">
+                            {{trans('messages.edit')}}
+                        </a>
+                    </td>
                 </tr>
                 @endforeach
                 </tbody>
                 <tfoot>
                 <tr>
-                   <td colspan="3">
+                   <td colspan="5">
                        <a href="{{url('offers/create')}}">
-                           Create A New Offer
+                           @lang('messages.offer create')
                        </a>
                    </td>
                 </tr>
