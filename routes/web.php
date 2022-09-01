@@ -110,18 +110,46 @@ Route::get('/home', 'HomeController@index')->name('home')->middleware('verified'
 Route::get('/redirect/{service}', 'SocialController@redirect');
 Route::get('/callback/{service}', 'SocialController@callback');
 
-Route::group([
-        'prefix'=>LaravelLocalization::setLocale(),
-        'middleware' => [ 'localeSessionRedirect', 'localizationRedirect', 'localeViewPath' ]
-    ],
-    function(){
+Route::group(['prefix' => LaravelLocalization::setLocale(), 'middleware' => [ 'localeSessionRedirect', 'localizationRedirect', 'localeViewPath' ]], function(){
         Route::group(['prefix'=>'offers'], function(){
-            Route::get('/', 'CrudController@index');
-//    Route::get('store', 'CrudController@store');
+            Route::get('/', 'CrudController@index')->name('offers');
+            Route::get('all', 'CrudController@index')->name('offers');
             Route::get('create', 'CrudController@create');
             Route::post('store', 'CrudController@store')->name('offer_store');
             Route::get('edit/{id}', 'CrudController@edit');
             Route::post('update/{id}', 'CrudController@update')->name('offer_update');
+            Route::get('delete/{id}', 'CrudController@delete')->name('offer_delete');
         });
+        Route::get('youtube', 'CrudController@getVideo')->middleware('auth');
 
+    }
+);
+Route::group(['prefix'=>'ajax-offer'], function(){
+
+    Route::get('create', 'OffersController@create')->name('ajax-create');
+    Route::post('store', 'OffersController@store')->name('ajax-store');
+    Route::get('all', 'OffersController@all')->name('ajax-all');
+    Route::post('delete', 'OffersController@delete')->name('ajax-delete');
+    Route::get('edit/{id}', 'OffersController@edit')->name('ajax-edit');
+    Route::post('update', 'OffersController@update')->name('ajax-update');
+});
+
+Route::group(['namespace'=>'Auth',
+            'middleware'=>['auth','checkage']], function(){
+    Route::get('adults', 'CustomAuthContrller@checkAge');
+});
+Route::get('not-adults', function(){
+    return 'Sorry, You\'re Not An Adult';
+});
+
+Route::group(['namespace'=>'Auth'], function(){
+
+    Route::get('site', 'CustomAuthContrller@site')->name('site')->middleware('auth:web');
+    
+    Route::group(['prefix'=>'admin'], function(){
+        Route::get('/', 'CustomAuthContrller@admin')->name('admin')->middleware('auth:admin');
+        Route::get('login', 'CustomAuthContrller@adminLogin')->name('adminLogin');
+        Route::post('login', 'CustomAuthContrller@saveAdminLogin')->name('saveAdminLogin');
+    
     });
+});

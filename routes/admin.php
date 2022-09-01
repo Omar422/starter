@@ -11,6 +11,6 @@
 |
 */
 
-Route::get('/admin', function () {
-    return 'Admin..CPanel';
-});
+// Route::get('/admin', function () {
+//     return 'Admin..CPanel';
+// });

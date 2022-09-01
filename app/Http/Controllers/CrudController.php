@@ -2,14 +2,19 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\VideoViewer;
 use App\Http\Requests\OfferRequest;
 use App\Models\Offer;
+use App\Models\Video;
 use LaravelLocalization;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use App\Traits\OfferTrait;
 
 class CrudController extends Controller
 {
+    use OfferTrait;
+
     public function getOffers(){
 //        return Offer::get();
         return Offer::select('name', 'price')->get();
@@ -19,7 +24,7 @@ class CrudController extends Controller
 //        $offers = Offer::get();
 //        return view('offers.index', ['offers'=>$offers]);
         $offers = Offer::select(
-            'id', 'price',
+            'id', 'price', 'photo',
             'name_'.LaravelLocalization::getCurrentLocale().' as name',
             'details_'.LaravelLocalization::getCurrentLocale().' as details')->get();
 //        print(LaravelLocalization::getCurrentLocale());
@@ -48,21 +53,16 @@ class CrudController extends Controller
         }
 */
 
-        // save img in folder that i added in config/filesystem
-        $file_extension = $request -> photo -> getClientOriginalExtension();
-        $file_name = time().'.'.$file_extension;
-        $path = 'images/offers';
-        // from form to folder
-        $request->photo->move($path, $file_name);
-        return 'okay';
+        $file_name = $this -> saveImage($request->photo, 'images/offers');
+        
         // insert the data
         Offer::create([
-            'photo'            => $file_name,
             'name_ar'          => $request->name_ar,
             'name_en'          => $request->name_en,
             'price'            => $request->price,
             'details_ar'       => $request->details_ar,
-            'details_en'       => $request->details_en
+            'details_en'       => $request->details_en,
+            'photo'            => $file_name
         ]);
         return redirect('offers')->with(['success'=>'Offer Added']);
     }
@@ -97,6 +97,15 @@ class CrudController extends Controller
 
     }
 
+    public function delete($offer_id) {
+        $offer = Offer::find($offer_id);
+        if(!$offer) {
+            return redirect()->back()->with(['error'=>'There\'s no offer with this id']);
+        }
+        $offer -> delete();
+        return redirect()->route('offers')->with(['success'=>__('messages.offer_delete')]);
+    }
+
     public function update(OfferRequest $request, $offer_id){
         $offer = Offer::find($offer_id);
         if (!$offer){
@@ -113,5 +122,11 @@ class CrudController extends Controller
 //        ]);
         $offer->update($request->all());
         return redirect('offers')->with(['success'=>'Updated']);
+    }
+
+    public function getVideo(){
+        $video = Video::first();
+        event(new VideoViewer($video));
+        return view('video')->with('obj',$video);
     }
 }

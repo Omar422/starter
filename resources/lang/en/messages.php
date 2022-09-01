@@ -31,7 +31,9 @@ return [
     'save'                      => 'Save',
     'Operation'                 => 'Operation',
     'edit'                      => 'Edit',
-    'update'                    => 'Update'
+    'update'                    => 'Update',
+    'delete'                    => 'Delete',
+    'offer_delete'              => 'Offer Deleted'
 
 
 ];

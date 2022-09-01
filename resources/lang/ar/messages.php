@@ -31,7 +31,9 @@ return [
     'save'                      => 'حفظ',
     'Operation'                 => 'العمليات',
     'edit'                      => 'تعديل',
-    'update'                    => 'تحديث'
+    'update'                    => 'تحديث',
+    'delete'                    => 'حذف',
+    'offer_delete'              => 'تم حذف العرض'
 
 
 ];

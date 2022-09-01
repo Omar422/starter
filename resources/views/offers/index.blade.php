@@ -20,6 +20,7 @@
                     <th>{{trans('messages.offer name')}}</th>
                     <th>{{__('messages.offer price')}}</th>
                     <th>@lang('messages.offer details')</th>
+                    <th>photo</th>
                     <th>{{__('messages.Operation')}}</th>
                 </tr>
                 </thead>
@@ -31,8 +32,14 @@
                     <td>{{$offer->price}}</td>
                     <td>{{$offer->details}}</td>
                     <td>
-                        <a href="{{url('offers/edit/'.$offer->id)}}">
+                        <img src="{{asset('images/offers/'.$offer->photo)}}" style="width:100px;height:100px">
+                    </td>
+                    <td>
+                        <a class="btn btn-primary" href="{{url('offers/edit/'.$offer->id)}}">
                             {{trans('messages.edit')}}
+                        </a>
+                        <a class="btn btn-danger" href="{{route('offer_delete',$offer->id)}}">
+                            {{trans('messages.delete')}}
                         </a>
                     </td>
                 </tr>
@@ -40,8 +47,8 @@
                 </tbody>
                 <tfoot>
                 <tr>
-                   <td colspan="5">
-                       <a href="{{url('offers/create')}}">
+                   <td colspan="6">
+                       <a href="{{url('offers/create')}}" class="btn btn-success">
                            @lang('messages.offer create')
                        </a>
                    </td>
