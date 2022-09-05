@@ -110,7 +110,8 @@ Route::get('/home', 'HomeController@index')->name('home')->middleware('verified'
 Route::get('/redirect/{service}', 'SocialController@redirect');
 Route::get('/callback/{service}', 'SocialController@callback');
 
-Route::group(['prefix' => LaravelLocalization::setLocale(), 'middleware' => [ 'localeSessionRedirect', 'localizationRedirect', 'localeViewPath' ]], function(){
+Route::group(['prefix' => LaravelLocalization::setLocale(),
+            'middleware' => [ 'localeSessionRedirect', 'localizationRedirect', 'localeViewPath' ]], function(){
         Route::group(['prefix'=>'offers'], function(){
             Route::get('/', 'CrudController@index')->name('offers');
             Route::get('all', 'CrudController@index')->name('offers');
@@ -120,19 +121,23 @@ Route::group(['prefix' => LaravelLocalization::setLocale(), 'middleware' => [ 'l
             Route::post('update/{id}', 'CrudController@update')->name('offer_update');
             Route::get('delete/{id}', 'CrudController@delete')->name('offer_delete');
         });
-        Route::get('youtube', 'CrudController@getVideo')->middleware('auth');
+        Route::get('youtube', 'CrudController@getVideo')->middleware(['auth:web,admin']);
 
-    }
-);
+});
+
+##### Ajax Route Start
 Route::group(['prefix'=>'ajax-offer'], function(){
 
+    Route::get('/', 'OffersController@all')->name('ajax-all');
+    Route::get('all', 'OffersController@all')->name('ajax-all');
     Route::get('create', 'OffersController@create')->name('ajax-create');
     Route::post('store', 'OffersController@store')->name('ajax-store');
-    Route::get('all', 'OffersController@all')->name('ajax-all');
     Route::post('delete', 'OffersController@delete')->name('ajax-delete');
     Route::get('edit/{id}', 'OffersController@edit')->name('ajax-edit');
     Route::post('update', 'OffersController@update')->name('ajax-update');
 });
+##### Ajax Route End
+
 
 Route::group(['namespace'=>'Auth',
             'middleware'=>['auth','checkage']], function(){
@@ -153,3 +158,27 @@ Route::group(['namespace'=>'Auth'], function(){
     
     });
 });
+
+##### Relations Route Start
+// One To One Relation
+Route::group(['namespace'=>'relations'], function() {
+
+    Route::get('has-one', 'RelationsController@hasOne');
+    Route::get('has-one-reverse', 'RelationsController@hasOneReverse');
+
+    Route::get('get-user-has-phone', 'RelationsController@getUserHasPhone');
+    Route::get('get-user-has-no-phone', 'RelationsController@getUserHasNoPhone');
+    
+    Route::get('get-user-has-phone-with-condition', 'RelationsController@getUserHasPhoneWithCondition');
+
+// One To Many Relation
+    Route::get('hospital', 'RelationsController@hasMany');
+    Route::get('hospitals', 'RelationsController@hospitals')->name('hospitals');
+    Route::get('doctors/{hospital_id}', 'RelationsController@doctors')->name('hospital.doctors');
+    Route::get('hospitals/{hospital_id}', 'RelationsController@deleteHospital')->name('hospital.delere');
+    Route::get('hospitals_has_doctors', 'RelationsController@hasDoctors');
+    Route::get('hospitals_has_doctors_male', 'RelationsController@hasMaleDoctors');
+    Route::get('hospitals_has_no_doctors', 'RelationsController@hasNoDoctors');
+
+});
+##### Relations Route End

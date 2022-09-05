@@ -27,12 +27,21 @@ class IncreaceViews
      */
     public function handle(VideoViewer $event)
     {
-        $this->updateViews($event->myvid);
+        if(!session()->has('videoVisited')) {
+
+            $this->updateViews($event->myvid);
+        
+        } else {
+        
+            return false;
+        
+        }
     }
 
     function updateViews($video){
         $video -> views += 1;
         $video -> save();
+        session()->put('videoVisited', $video->id); // should logout and login again to increace
     }
 
 }

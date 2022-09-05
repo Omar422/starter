@@ -29,7 +29,8 @@ class OfferRequest extends FormRequest
             'name_en'      => 'required|max:100|unique:offers,name_en',
             'price'        => 'required|numeric',
             'details_ar'   => 'required',
-            'details_en'   => 'required'
+            'details_en'   => 'required',
+            'photo'        => 'required'
         ];
     }
 

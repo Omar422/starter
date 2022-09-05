@@ -52,7 +52,7 @@
                 <tfoot>
                 <tr>
                    <td colspan="5">
-                       <a href="{{url('offers/create')}}">
+                       <a href="{{route('ajax-create')}}">
                            @lang('messages.offer create')
                        </a>
                    </td>

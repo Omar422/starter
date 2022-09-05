@@ -25,7 +25,7 @@ class User extends Authenticatable implements MustVerifyEmail
      * @var array
      */
     protected $hidden = [
-        'password', 'remember_token',
+        'password', 'remember_token', 'email_verified_at', 'created_at', 'updated_at'
     ];
 
     /**
@@ -36,4 +36,12 @@ class User extends Authenticatable implements MustVerifyEmail
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    ////// Relations Begain
+    public function phone() {
+        // hasOne('related', 'foriegnkey') => foriegn not neccery if the field name is the parent_id (user_id)
+        return $this->hasOne('App\Models\Phone', 'user_id');
+    }
+    ////// Relations End
+
 }
